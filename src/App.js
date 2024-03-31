@@ -1,25 +1,21 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import "./App.css";
+import TaskList from "./Components/TaskList";
+import Add from "./Components/Add";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  const [todos, setTodos] = useState([
+    { id: Math.random(), action: "Wake Up", isDone: true },
+    { id: Math.random(), action: "Go Out", isDone: false },
+  ]);
+  const handleDelete=(THEID)=>setTodos(todos.filter(el=>el.id!==THEID))
+  const handleComplete=(ID)=>setTodos(todos.map(el=>el.id===ID?{...el,isDone:!el.isDone}:el))
+  const handleAdd=(newtask)=>setTodos([...todos,newtask])
+  const handleEdit=(EditedOne)=>setTodos(todos.map(el=>el.id===EditedOne.id?{...el,...EditedOne}:el))
+  return <div className="App">
+  <Add addFunction={handleAdd} />
+  <TaskList tasks={todos}  deletefunction={handleDelete} completefunction={handleComplete}  handleEdit={handleEdit}/>
+  </div>;
 }
 
 export default App;
